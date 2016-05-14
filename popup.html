@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                min-width: 250px;
+            }
+
+            .chill, .work {
+                text-align: center;
+            }
+
+            .control > a {
+                color: black;
+            }
+
+            .control > a.selected {
+                color: #fff;
+                background-color: #000;
+                border-radius: 3px; 
+
+                padding: 2px 2px 2px 2px;
+            }
+
+            .control > input {
+                font-size: 12px;
+                width: 3em;
+
+                border: none;
+                text-decoration: underline;
+            }
+
+        </style>
+        <script src="popup.js" async></script>
+    </head>
+    <body>
+        <div class="work">
+            <p>You only have</p>
+            <div class="timer">
+            </div> 
+            <p>time remaining! Let's GO!</p>
+        </div>
+        <div class="chill">
+            <p>You currently are not working! :)</p>
+            <div class="control">
+                <a href="#" class="selected">30</a>
+                <a href="#">60</a>
+                <a href="#">120</a>
+                <a href="#">240</a>
+                <input type="number" min="1">
+                <button class="start">Start</button>
+            </div>
+        </div>
+    </body>
+</html>
