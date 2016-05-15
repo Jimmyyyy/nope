@@ -2,10 +2,14 @@ var chill = document.querySelector(".chill"),
     work  = document.querySelector(".work");
 var interval;
 
-function update(data) {
+function update(data, tabs) {
     clearInterval(interval);
 
-    if (data.blocked != undefined && (data.blocked.indexOf(location.hostname) != -1 || data.blocked.indexOf(location.hostname + location.pathname) != -1)) {
+    var loc = document.createElement("a");
+    loc.href = tabs[0].url;
+    console.log(loc.href);
+
+    if (data.blocked != undefined && (data.blocked.indexOf(loc.hostname) != -1 || data.blocked.indexOf(loc.hostname + loc.pathname) != -1)) {
         document.querySelector(".block.selector").style.display = "none";
     }
     display(data.timeout);
@@ -49,12 +53,15 @@ function start() {
     chrome.storage.local.set({
         "timeout": timeout.getTime() 
     }, function() {
-        chrome.storage.local.get("timeout", update);
+        chrome.storage.local.get("timeout", function(data) {
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                update(data, tabs);
+            })
+        });
     });
 }
 
 function select(selector, el) {
-    console.log(selector);
     document.querySelector("." + selector + ".selector > .selected").className = "";
     el.className = "selected";
 }
@@ -73,21 +80,32 @@ window.onload = function() {
     }
 
     document.querySelector("button.block").onclick = function() {
-        chrome.storage.local.get("blocked", block);
+        chrome.storage.local.get("blocked", function(data) {
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                block(data, tabs);
+            });
+        });
     }
 
     document.querySelector(".start").onclick = start;
-    chrome.storage.local.get(null, update);
+    chrome.storage.local.get(null, function(data) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            update(data, tabs);
+        });
+    });
 };
 
-function block(data) {
+function block(data, tabs) {
+    var loc = document.createElement("a");
+    loc.href = tabs[0].url;
+
     var blocked = data.blocked != undefined ? data.blocked : [];
     switch (document.querySelector(".block.selector > .selected").innerHTML) {
     case "Site":
-        blocked.push(location.hostname);
+        blocked.push(loc.hostname);
         break;
     case "Page":
-        blocked.push(location.hostname + location.pathname);
+        blocked.push(loc.hostname + loc.pathname);
         break;
     }
 
