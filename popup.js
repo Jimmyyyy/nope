@@ -7,14 +7,14 @@ function update(data, tabs) {
 
     var loc = document.createElement("a");
     loc.href = tabs[0].url;
-    console.log(loc.href);
 
     if (data.blocked != undefined && (data.blocked.indexOf(loc.hostname) != -1 || data.blocked.indexOf(loc.hostname + loc.pathname) != -1)) {
         document.querySelector(".block.selector").style.display = "none";
     }
+
     display(data.timeout);
     interval = setInterval(function() {
-        display(data);
+        display(data.timeout);
     }, 500);
 }
 
@@ -36,7 +36,7 @@ function getTimeLeft(timeout) {
 
     if (timeout != undefined && current <= parseInt(timeout)) {
         var delta = new Date(timeout - current);
-        var hours = (delta.getHours() - 19 < 10 ? "0" + (delta.getHours() - 19) : delta.getHours()) - 19, 
+        var hours = (delta.getHours() < 10 ? "0" + (delta.getHours()) : delta.getHours()) - 19, 
             mins  = delta.getMinutes() < 10 ? "0" + delta.getMinutes() : delta.getMinutes(),
             secs  = delta.getSeconds() < 10 ? "0" + delta.getSeconds() : delta.getSeconds();
         return hours + ":" + mins + ":" + secs;     
@@ -110,4 +110,9 @@ function block(data, tabs) {
     }
 
     chrome.storage.local.set({"blocked": blocked});
+    chrome.storage.local.get(null, function(data) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            update(data, tabs);
+        });
+    });
 }
