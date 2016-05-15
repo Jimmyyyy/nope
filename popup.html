@@ -7,14 +7,19 @@
             }
 
             .chill, .work {
+                visibility: none;
                 text-align: center;
             }
 
-            .control > a {
+            .block {
+                text-align: center;
+            }
+
+            .selector > a {
                 color: black;
             }
 
-            .control > a.selected {
+            .selector > a.selected {
                 color: #fff;
                 background-color: #000;
                 border-radius: 3px; 
@@ -22,7 +27,7 @@
                 padding: 2px 2px 2px 2px;
             }
 
-            .control > input {
+            .selector > input {
                 font-size: 12px;
                 width: 3em;
 
@@ -42,7 +47,7 @@
         </div>
         <div class="chill">
             <p>You currently are not working! :)</p>
-            <div class="control">
+            <div class="control selector">
                 <a href="#" class="selected">30</a>
                 <a href="#">60</a>
                 <a href="#">120</a>
@@ -50,6 +55,12 @@
                 <input type="number" min="1">
                 <button class="start">Start</button>
             </div>
+        </div>
+        <hr>
+        <div class="block selector">
+            <a href="#" class="selected">Site</a>
+            <a href="#">Page</a>
+            <button class="block">Block</button>
         </div>
     </body>
 </html>
