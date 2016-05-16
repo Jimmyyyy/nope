@@ -22,6 +22,8 @@
         "scripts": ["js/background.js"]
     },
 
+    "options_page": "options.html",
+
     "permissions": [
         "tabs",
         "storage",
