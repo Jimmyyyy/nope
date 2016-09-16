@@ -1,0 +1,9 @@
+public class pussyb0ss {
+  public static void main(String[] args) {
+    int boss = 0;
+    while (boss < 1000) {
+      System.out.println("Gibe de pusi b0ss");
+      boss++;
+    }
+  }
+}
